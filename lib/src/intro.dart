@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:CovidHacksApp/src/login.dart';
+import 'package:CovidHacksApp/src/register.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -65,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   route() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        context, MaterialPageRoute(builder: (context) => RegisterScreen()));
   }
 
   @override
@@ -81,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Align(
                     alignment: Alignment.center,
                     child: Image.asset(
-                      'lib/src/assets/ACF-logo-placeholder.png',
+                      'lib/src/assets/logo.png',
                       height: 250,
                       width: 250,
                     ),
@@ -92,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       alignment: FractionalOffset.bottomCenter,
                       child: CircularProgressIndicator(
                         valueColor:
-                            new AlwaysStoppedAnimation(Colors.blueAccent),
+                            new AlwaysStoppedAnimation(Colors.redAccent),
                       ))),
             ],
           )),

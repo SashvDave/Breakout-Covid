@@ -1,14 +1,12 @@
-import 'package:CovidHacksApp/src/intro.dart';
-import 'package:CovidHacksApp/src/register.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 void main() {
-  runApp(LoginScreen());
+  runApp(RegisterScreen());
 }
 
-class LoginScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -23,9 +21,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
-final GlobalKey<FormState> _formKey = GlobalKey();
-final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -46,44 +41,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+TextEditingController _emailController = TextEditingController();
+TextEditingController _passwordController = TextEditingController();
 
 class _MyHomePageState extends State<MyHomePage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  Future<FirebaseUser> _handleSigninWithEmail(
-      String email, String password) async {
-    AuthResult authResult = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
-    final FirebaseUser user = authResult.user;
-
-    //assert(user != null);
-    //assert(await user.getIdToken() != null);
-
-    print("Signed in user:");
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => RegisterScreen()));
-    return user;
-  }
-
-  Future<FirebaseUser> _handleSigninWithGoogle(
-      GoogleSignIn googleSignIn) async {
-    print("hi");
-    final GoogleSignInAccount googleUser = await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    final FirebaseUser user =
-        (await _auth.signInWithCredential(credential)).user;
-    print("signed in " + user.displayName);
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => RegisterScreen()));
-    return user;
+  Future<FirebaseUser> _handleSignUp(String email, String password) async {
+    final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    ))
+        .user;
+    print('Signed user up: ');
   }
 
   @override
@@ -95,9 +63,9 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               new Container(
-                  margin: EdgeInsets.only(top: 50, bottom: 10),
-                  height: 175.0,
-                  width: 115.0,
+                  margin: EdgeInsets.only(top: 30),
+                  height: 155.0,
+                  width: 95.0,
                   child: Image.asset('lib/src/assets/logo.png')),
               new Container(
                 padding: EdgeInsets.all(10.0),
@@ -105,15 +73,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: new InputDecoration(
                     border: const OutlineInputBorder(
                       borderSide:
-                          const BorderSide(color: Colors.white, width: 2.0),
+                          const BorderSide(color: Colors.green, width: 2.0),
                     ),
-                    hintText: 'Enter your email ID',
-                    prefixIcon: Icon(Icons.email),
-                    labelText: 'Email',
+                    hintText: 'Enter your username',
+                    prefixIcon: Icon(Icons.person_add),
+                    labelText: 'Username',
                     contentPadding:
                         new EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   ),
-                  controller: _emailController,
                   validator: (input) =>
                       input.isEmpty ? 'You must enter an email' : null,
                 ),
@@ -121,10 +88,30 @@ class _MyHomePageState extends State<MyHomePage> {
               new Container(
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
+                  controller: _emailController,
                   decoration: new InputDecoration(
                     border: const OutlineInputBorder(
                       borderSide:
-                          const BorderSide(color: Colors.white, width: 2.0),
+                          const BorderSide(color: Colors.green, width: 2.0),
+                    ),
+                    hintText: 'Ex. example123@example.com',
+                    prefixIcon: Icon(Icons.mail),
+                    labelText: 'Email Address',
+                    contentPadding:
+                        new EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  ),
+                  validator: (input) =>
+                      input.isEmpty ? 'You must enter an email' : null,
+                ),
+              ),
+              new Container(
+                padding: EdgeInsets.all(10.0),
+                child: TextFormField(
+                  controller: _passwordController,
+                  decoration: new InputDecoration(
+                    border: const OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: Colors.orange, width: 2.0),
                     ),
                     hintText: 'Enter your password here',
                     prefixIcon: Icon(Icons.security),
@@ -137,7 +124,29 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   obscureText: true,
-                  controller: _passwordController,
+                  validator: (input) =>
+                      input.isEmpty ? 'You must enter a password' : null,
+                ),
+              ),
+              new Container(
+                padding: EdgeInsets.all(10.0),
+                child: TextFormField(
+                  decoration: new InputDecoration(
+                    border: const OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: Colors.orange, width: 2.0),
+                    ),
+                    hintText: 'Enter your password here',
+                    prefixIcon: Icon(Icons.check_box),
+                    labelText: 'Confirm Password',
+                    contentPadding: new EdgeInsets.fromLTRB(
+                      20.0,
+                      10.0,
+                      20.0,
+                      10.0,
+                    ),
+                  ),
+                  obscureText: true,
                   validator: (input) =>
                       input.isEmpty ? 'You must enter a password' : null,
                 ),
@@ -147,35 +156,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: EdgeInsets.all(10.0),
                 child: RaisedButton.icon(
                     onPressed: () {
-                      if (!_formKey.currentState.validate()) return;
-                      try {
-                        this._handleSigninWithEmail(
-                            _emailController.text, _passwordController.text);
-                      } on AuthException catch (e) {
-                        String error;
-                        switch (e.code) {
-                          case 'ERROR_INVALID_EMAIL':
-                          case 'ERROR_WRONG_PASSWORD':
-                            error = 'Invalid email or password';
-                            break;
-                          case 'ERROR_USER_NOT_FOUND':
-                          case 'ERROR_USER_DISABLED':
-                          case 'ERROR_TOO_MANY_REQUESTS':
-                          case 'ERROR_OPERATION_NOT_ALLOWED':
-                            error = 'Invalid request';
-                            break;
-                        }
-                        _scaffoldKey.currentState.showSnackBar(
-                          SnackBar(content: Text(error)),
-                        );
-                        return;
-                      }
-                      Navigator.of(context).pop();
+                      this._handleSignUp(
+                          _emailController.text, _passwordController.text);
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(7.0))),
-                    label: Text('Log in',
-                        style: TextStyle(color: Colors.white, fontSize: 17)),
+                    label:
+                        Text('Log in', style: TextStyle(color: Colors.white)),
                     icon:
                         Icon(Icons.supervised_user_circle, color: Colors.white),
                     padding: const EdgeInsets.all(13.0),
@@ -184,16 +171,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.transparent),
               ),
               new Container(
-                margin: EdgeInsets.only(top: 5, bottom: 10),
-                padding: EdgeInsets.all(10.0),
+                margin: EdgeInsets.only(top: 5, left: 10, right: 10),
                 child: RaisedButton.icon(
-                    onPressed: () async {
-                      _handleSigninWithGoogle(googleSignIn);
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/register');
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(7.0))),
-                    label: Text('Sign in with Google',
-                        style: TextStyle(color: Colors.white, fontSize: 17)),
+                    label: Text('Sign up with Google',
+                        style: TextStyle(color: Colors.white)),
                     icon: Icon(
                       Icons.explore,
                       color: Colors.white,
@@ -204,10 +190,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.transparent),
               ),
               new Container(
-                  margin: EdgeInsets.only(top: 5, bottom: 10),
+                  margin: EdgeInsets.only(top: 5),
                   padding: EdgeInsets.all(10.0),
                   child: Text(
-                    'Dont have an account? Sign up!',
+                    'Sign in with an existing account',
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 15),
