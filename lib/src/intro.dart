@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Align(
                     alignment: Alignment.center,
                     child: Image.asset(
-                      'lib/src/assets/ACF-logo-placeholder.png',
+                      'lib/src/assets/logo.png',
                       height: 250,
                       width: 250,
                     ),

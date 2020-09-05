@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(LoginScreen());
+  runApp(RegisterScreen());
 }
 
-class LoginScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -49,8 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               new Container(
-                margin: EdgeInsets.only(top: 50, bottom:10),
-                height: 175.0, width: 115.0, child: Image.asset('assets/logo.png')),
+                margin: EdgeInsets.only(top: 30),
+                height: 155.0, width: 95.0, child: Image.asset('assets/logo.png')),
               new Container(
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
@@ -59,9 +59,29 @@ class _MyHomePageState extends State<MyHomePage> {
                       borderSide:
                       const BorderSide(color: Colors.green, width: 2.0),
                     ),
-                    hintText: 'Enter your email ID',
-                    prefixIcon: Icon(Icons.email),
-                    labelText: 'Email',
+                    hintText: 'Enter your username',
+                    prefixIcon: Icon(Icons.person_add),
+                    labelText: 'Username',
+                    contentPadding:
+                    new EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  ),
+                  validator: (input) =>
+                  input.isEmpty
+                      ? 'You must enter an email'
+                      : null,
+                ),
+              ),
+              new Container(
+                padding: EdgeInsets.all(10.0),
+                child: TextFormField(
+                  decoration: new InputDecoration(
+                    border: const OutlineInputBorder(
+                      borderSide:
+                      const BorderSide(color: Colors.green, width: 2.0),
+                    ),
+                    hintText: 'Ex. example123@example.com',
+                    prefixIcon: Icon(Icons.mail),
+                    labelText: 'Email Address',
                     contentPadding:
                     new EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   ),
@@ -93,13 +113,34 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               new Container(
+                padding: EdgeInsets.all(10.0),
+                child: TextFormField(
+                  decoration: new InputDecoration(
+                    border: const OutlineInputBorder(
+                      borderSide:
+                      const BorderSide(color: Colors.orange, width: 2.0),
+                    ),
+                    hintText: 'Enter your password here',
+                    prefixIcon: Icon(Icons.check_box),
+                    labelText: 'Confirm Password',
+                    contentPadding:
+                    new EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0,),
+                  ),
+                  obscureText: true,
+                  validator: (input) =>
+                  input.isEmpty
+                      ? 'You must enter a password'
+                      : null,
+                ),
+              ),
+              new Container(
                 margin: EdgeInsets.only(top:5),
                 padding: EdgeInsets.all(10.0),
                 child:  RaisedButton.icon(
                   onPressed: (){ Navigator.of(context).pushNamed('/register');  },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(7.0))),
-                        label: Text('Log in', style: TextStyle(color: Colors.white, fontSize: 17)),
+                        label: Text('Log in', style: TextStyle(color: Colors.white)),
                         icon: Icon(Icons.supervised_user_circle, color: Colors.white), 
                           padding: const EdgeInsets.all(13.0),
                           textColor: Colors.white,
@@ -108,13 +149,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               new Container(
-                margin: EdgeInsets.only(top: 5, bottom:10),
-                padding: EdgeInsets.all(10.0),
+                margin: EdgeInsets.only(top: 5, left: 10, right: 10),
                 child:  RaisedButton.icon(
                   onPressed: (){ Navigator.of(context).pushNamed('/register');},
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(7.0))),
-                        label: Text('Sign in with Google', style: TextStyle(color: Colors.white, fontSize: 17)),
+                        label: Text('Sign up with Google', style: TextStyle(color: Colors.white)),
                         icon: Icon(Icons.explore, color: Colors.white,), 
                           padding: const EdgeInsets.all(13.0),
                           textColor: Colors.white,
@@ -123,10 +163,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               new Container(
-                margin: EdgeInsets.only(top: 5, bottom:10),
+                margin: EdgeInsets.only(top: 5),
                 padding: EdgeInsets.all(10.0),
                 child: Text(
-                  'Dont have an account? Sign up!',
+                  'Sign in with an existing account',
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 15),
