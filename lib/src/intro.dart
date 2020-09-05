@@ -4,10 +4,10 @@ import 'package:CovidHacksApp/src/register.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(IntroScren());
+  runApp(IntroScreen());
 }
 
-class IntroScren extends StatelessWidget {
+class IntroScreen extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
