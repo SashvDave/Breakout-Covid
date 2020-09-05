@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:CovidHacksApp/src/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -50,6 +52,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    startTime();
+  }
+
+  startTime() async {
+    var duration = new Duration(seconds: 3);
+    return new Timer(duration, route);
+  }
+
+  route() {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(

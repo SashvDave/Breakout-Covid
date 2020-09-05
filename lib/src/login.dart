@@ -1,4 +1,7 @@
+import 'package:CovidHacksApp/src/intro.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 void main() {
   runApp(LoginScreen());
@@ -38,7 +41,45 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 class _MyHomePageState extends State<MyHomePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  Future<FirebaseUser> _handleSigninWithEmail(
+      String email, String password) async {
+    AuthResult authResult = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
+    final FirebaseUser user = authResult.user;
+
+    //assert(user != null);
+    //assert(await user.getIdToken() != null);
+
+    print("Signed in user:");
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => IntroScren()));
+    return user;
+  }
+
+  Future<FirebaseUser> _handleSigninWithGoogle(
+      GoogleSignIn googleSignIn) async {
+    final GoogleSignInAccount googleUser = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    final FirebaseUser user =
+        (await _auth.signInWithCredential(credential)).user;
+    print("signed in " + user.displayName);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => IntroScren()));
+    return user;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,26 +90,27 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               new Container(
-                margin: EdgeInsets.only(top: 50, bottom:10),
-                height: 175.0, width: 115.0, child: Image.asset('assets/logo.png')),
+                  margin: EdgeInsets.only(top: 50, bottom: 10),
+                  height: 175.0,
+                  width: 115.0,
+                  child: Image.asset('lib/src/assets/logo.png')),
               new Container(
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
                   decoration: new InputDecoration(
                     border: const OutlineInputBorder(
                       borderSide:
-                      const BorderSide(color: Colors.green, width: 2.0),
+                          const BorderSide(color: Colors.white, width: 2.0),
                     ),
                     hintText: 'Enter your email ID',
                     prefixIcon: Icon(Icons.email),
                     labelText: 'Email',
                     contentPadding:
-                    new EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                        new EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   ),
+                  controller: _emailController,
                   validator: (input) =>
-                  input.isEmpty
-                      ? 'You must enter an email'
-                      : null,
+                      input.isEmpty ? 'You must enter an email' : null,
                 ),
               ),
               new Container(
@@ -77,50 +119,62 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: new InputDecoration(
                     border: const OutlineInputBorder(
                       borderSide:
-                      const BorderSide(color: Colors.orange, width: 2.0),
+                          const BorderSide(color: Colors.white, width: 2.0),
                     ),
                     hintText: 'Enter your password here',
                     prefixIcon: Icon(Icons.security),
                     labelText: 'Password',
-                    contentPadding:
-                    new EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0,),
+                    contentPadding: new EdgeInsets.fromLTRB(
+                      20.0,
+                      10.0,
+                      20.0,
+                      10.0,
+                    ),
                   ),
                   obscureText: true,
+                  controller: _passwordController,
                   validator: (input) =>
-                  input.isEmpty
-                      ? 'You must enter a password'
-                      : null,
+                      input.isEmpty ? 'You must enter a password' : null,
                 ),
               ),
               new Container(
-                margin: EdgeInsets.only(top:5),
+                margin: EdgeInsets.only(top: 5),
                 padding: EdgeInsets.all(10.0),
-                child:  RaisedButton.icon(
-                  onPressed: (){ Navigator.of(context).pushNamed('/register');  },
+                child: RaisedButton.icon(
+                    onPressed: () {
+                      this._handleSigninWithEmail(
+                          _emailController.text, _passwordController.text);
+                    },
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(7.0))),
-                        label: Text('Log in', style: TextStyle(color: Colors.white)),
-                        icon: Icon(Icons.supervised_user_circle, color: Colors.white), 
-                          padding: const EdgeInsets.all(13.0),
-                          textColor: Colors.white,
-                          splashColor: Colors.red,
-                          color: Colors.transparent
-                ),
+                        borderRadius: BorderRadius.all(Radius.circular(7.0))),
+                    label: Text('SIGN IN WITH EMAIL',
+                        style: TextStyle(color: Colors.white)),
+                    icon:
+                        Icon(Icons.supervised_user_circle, color: Colors.white),
+                    padding: const EdgeInsets.all(13.0),
+                    textColor: Colors.white,
+                    splashColor: Colors.blueAccent,
+                    color: Colors.transparent),
               ),
               new Container(
-                margin: EdgeInsets.only(top: 5, bottom:10),
+                margin: EdgeInsets.only(top: 5, bottom: 10),
                 padding: EdgeInsets.all(10.0),
-                child:  RaisedButton.icon(
-                  onPressed: (){ Navigator.of(context).pushNamed('/register');},
+                child: RaisedButton.icon(
+                    onPressed: () async {
+                      _handleSigninWithGoogle(googleSignIn);
+                    },
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(7.0))),
-                        label: Text('Sign in with Google', style: TextStyle(color: Colors.white)),
-                        icon: Icon(Icons.explore, color: Colors.white,), 
-                          padding: const EdgeInsets.all(13.0),
-                          textColor: Colors.white,
-                          splashColor: Colors.red,
-                          color: Colors.transparent
-                ),
+                        borderRadius: BorderRadius.all(Radius.circular(7.0))),
+                    label: Text('SIGN IN WITH GOOGLE',
+                        style: TextStyle(color: Colors.white)),
+                    icon: Icon(
+                      Icons.explore,
+                      color: Colors.white,
+                    ),
+                    padding: const EdgeInsets.all(13.0),
+                    textColor: Colors.white,
+                    splashColor: Colors.blueAccent,
+                    color: Colors.transparent),
               ),
             ],
           ),

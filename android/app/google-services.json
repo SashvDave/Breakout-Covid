@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1050500223044",
+    "firebase_url": "https://covidhacks-afd5c.firebaseio.com",
+    "project_id": "covidhacks-afd5c",
+    "storage_bucket": "covidhacks-afd5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050500223044:android:8589de3b7490abd9a32c11",
+        "android_client_info": {
+          "package_name": "com.example.CovidHacksApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050500223044-en85gknidbkdi8pebfg51dudhsg8vvtq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9YglT8uf_Y8zCqOIonppr5kBQnc2VY8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050500223044-en85gknidbkdi8pebfg51dudhsg8vvtq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

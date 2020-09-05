@@ -21,7 +21,10 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  
+  loading: ^1.0.2
+  google_sign_in: ^4.5.1
+  firebase_auth: ^0.16.1
+  firebase_database: ^3.1.6
   flutter:
     sdk: flutter
 
@@ -33,7 +36,6 @@ dependencies:
   cupertino_icons: ^0.1.3
 
 dev_dependencies:
-  loading: ^1.0.2
   flutter_test:
     sdk: flutter
 
