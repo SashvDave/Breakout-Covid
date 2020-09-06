@@ -8,7 +8,8 @@ Breakout COVID can be used as an app and website, which uses Machine Learning mo
 * COVID tracking api to get all he COVID related statistics and data
 * Firebase Realtime Database used to store user information, like user's company name and the state they live in
 * Machine Learning model to analyze if a company should close their business or wait, given the circumstances of the area.
-* Flask to host machine learning model and API for mobile app and website
+* Flask to create machine learning model and API for mobile app and website
+* Heroku to host the machine learning model, which is used by mobile app and website
 * Chart to display COVID information in app
 
 # Video Demonstration of the App
