@@ -1,6 +1,4 @@
 import 'package:CovidHacksApp/src/Stats.dart';
-import 'package:CovidHacksApp/src/intro.dart';
-import 'package:CovidHacksApp/src/register.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';

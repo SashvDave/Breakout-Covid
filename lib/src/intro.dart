@@ -1,7 +1,8 @@
 import 'dart:async';
+import 'package:CovidHacksApp/src/Stats.dart';
 import 'package:CovidHacksApp/src/login.dart';
-import 'package:CovidHacksApp/src/register.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(IntroScreen());
@@ -64,7 +65,11 @@ class _MyHomePageState extends State<MyHomePage> {
     return new Timer(duration, route);
   }
 
-  route() {
+  route() async {
+    if (await FirebaseAuth.instance.currentUser() != null) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Stats()));
+    }
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
