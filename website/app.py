@@ -9,13 +9,9 @@ Original file is located at
 
 import pandas as pd
 import numpy as np
-import torch as th
-import seaborn as sb
-import matplotlib.pyplot as plt
 
 import flask
 from flask import Flask, render_template, request, redirect
-
 
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from keras.utils import np_utils
@@ -24,8 +20,6 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn import datasets
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
-
-import pickle
 
 from numpy import array
 from numpy import argmax
@@ -43,6 +37,11 @@ name_array = []
 business_array = []
 email_array = []
 location_array = []
+
+cases_array = []
+hospitalized_array = []
+ICU_array = []
+ventilator_array = []
 
 
 @app.route('/send', methods=['GET', 'POST'])
@@ -71,6 +70,22 @@ def send():
         location_array.append(location)
         location_array[0] = location
 
+        cases = req.get("cases")
+        cases_array.append(cases)
+        cases_array[0] = cases
+
+        hospitalized = req.get("hospitalized")
+        hospitalized_array.append(hospitalized)
+        hospitalized_array[0] = hospitalized
+
+        ICU = req.get("ICU")
+        ICU_array.append(ICU)
+        ICU_array[0] = ICU
+
+        ventilator = req.get("ventilator")
+        ventilator_array.append(ventilator)
+        ventilator_array[0] = ventilator
+
         message = req.get("message")
         
         print(message)
@@ -87,21 +102,36 @@ def send():
             indices_to_keep = ~df.isin([np.nan, np.inf, -np.inf]).any(1)
             return df[indices_to_keep].astype(np.float64)
 
-        df.drop(columns='pending')
-
-        X = df.iloc[:, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]].values
-        states = X[:, 0]
-
         le = LabelEncoder() 
         
         df['state']= le.fit_transform(df['state'])
         df.replace("+", "")
+
         df = df.drop(columns="dataQualityGrade")
         df = df.drop(columns="pending")
+        df = df.drop(columns="recovered")
+        df = df.drop(columns="negative")
+        df = df.drop(columns="hospitalized")
+        df = df.drop(columns="totalTestsViral")
+        df = df.drop(columns="positiveTestsViral")
+        df = df.drop(columns="negativeTestsViral")
+
+        df = df.drop(columns="positiveCasesViral")
+        df = df.drop(columns="deathConfirmed")
+        df = df.drop(columns="deathProbable")
+
+        df = df.drop(columns="posNeg")
+        df = df.drop(columns="deathIncrease")
+        df = df.drop(columns="hospitalizedIncrease")
+
+
+
+        df = df.drop(columns="totalTestResults")
+        df = df.drop(columns="totalTestResultsIncrease")
+
         df.dropna()
 
         clean_dataset(df)
-
 
         df.head()
 
@@ -110,7 +140,18 @@ def send():
 
         predictions = model.predict(df)
 
-        print(predictions[0])
+        Prediction = model.predict([[3, cases, hospitalized, 7500, ICU, 750, 500, 300, 2000, 1500, 500, 550000]])
+
+        print(Prediction[0])
+
+        if(Prediction[0] == 0):
+            return render_template('low.html')
+
+        if(Prediction[0] == 1):
+            return render_template('medium.html')
+
+        if(Prediction[0] == 2):
+            return render_template('high.html')
 
 
         return redirect(request.url)
