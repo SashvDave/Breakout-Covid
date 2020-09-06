@@ -1,3 +1,4 @@
+import 'package:CovidHacksApp/src/Stats.dart';
 import 'package:CovidHacksApp/src/intro.dart';
 import 'package:CovidHacksApp/src/register.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +25,6 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-final GlobalKey<FormState> _formKey = GlobalKey();
-final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -47,23 +45,28 @@ class MyHomePage extends StatefulWidget {
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+final GoogleSignIn googleSignIn = GoogleSignIn();
+
 class _MyHomePageState extends State<MyHomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
   Future<FirebaseUser> _handleSigninWithEmail(
       String email, String password) async {
-    AuthResult authResult = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
+    print(email);
+    print(password);
+    AuthResult authResult = await _auth.signInWithEmailAndPassword(
+        email: email.trim(), password: password.trim());
     final FirebaseUser user = authResult.user;
 
     //assert(user != null);
     //assert(await user.getIdToken() != null);
 
-    print("Signed in user:");
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => RegisterScreen()));
+    print("Signed in user");
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Stats()));
     return user;
   }
 
@@ -80,9 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final FirebaseUser user =
         (await _auth.signInWithCredential(credential)).user;
-    print("signed in " + user.displayName);
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => RegisterScreen()));
+    print("signed in ");
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Stats()));
     return user;
   }
 
@@ -121,6 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
               new Container(
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
+                  controller: _passwordController,
                   decoration: new InputDecoration(
                     border: const OutlineInputBorder(
                       borderSide:
@@ -137,7 +140,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   obscureText: true,
-                  controller: _passwordController,
                   validator: (input) =>
                       input.isEmpty ? 'You must enter a password' : null,
                 ),
@@ -147,30 +149,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: EdgeInsets.all(10.0),
                 child: RaisedButton.icon(
                     onPressed: () {
-                      if (!_formKey.currentState.validate()) return;
-                      try {
-                        this._handleSigninWithEmail(
-                            _emailController.text, _passwordController.text);
-                      } on AuthException catch (e) {
-                        String error;
-                        switch (e.code) {
-                          case 'ERROR_INVALID_EMAIL':
-                          case 'ERROR_WRONG_PASSWORD':
-                            error = 'Invalid email or password';
-                            break;
-                          case 'ERROR_USER_NOT_FOUND':
-                          case 'ERROR_USER_DISABLED':
-                          case 'ERROR_TOO_MANY_REQUESTS':
-                          case 'ERROR_OPERATION_NOT_ALLOWED':
-                            error = 'Invalid request';
-                            break;
-                        }
-                        _scaffoldKey.currentState.showSnackBar(
-                          SnackBar(content: Text(error)),
-                        );
-                        return;
-                      }
-                      Navigator.of(context).pop();
+                      _handleSigninWithEmail(_emailController.text.trim(),
+                          _passwordController.text);
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(7.0))),

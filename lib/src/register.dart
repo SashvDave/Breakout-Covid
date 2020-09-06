@@ -1,3 +1,4 @@
+import 'package:CovidHacksApp/src/Stats.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -52,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ))
         .user;
     print('Signed user up: ');
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Stats()));
   }
 
   @override
@@ -156,8 +158,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: EdgeInsets.all(10.0),
                 child: RaisedButton.icon(
                     onPressed: () {
-                      this._handleSignUp(
-                          _emailController.text, _passwordController.text);
+                      this._handleSignUp(_emailController.text.trim(),
+                          _passwordController.text);
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(7.0))),

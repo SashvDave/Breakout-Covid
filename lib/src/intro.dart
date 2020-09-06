@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   route() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => RegisterScreen()));
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
   @override
