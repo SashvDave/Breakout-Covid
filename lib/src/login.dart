@@ -1,4 +1,5 @@
 import 'package:CovidHacksApp/src/Stats.dart';
+import 'package:CovidHacksApp/src/register.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -181,15 +182,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     splashColor: Colors.red,
                     color: Colors.transparent),
               ),
-              new Container(
-                  margin: EdgeInsets.only(top: 5, bottom: 10),
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    'Dont have an account? Sign up!',
+              new InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));
+                  },
+                child: Text('Sign in with an existing account',
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 15),
-                  )),
+                ),
+              )
             ],
           ),
         ),
