@@ -1,9 +1,13 @@
+import 'package:CovidHacksApp/src/home.dart';
+import 'package:CovidHacksApp/src/login.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'dart:math';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 void main() => runApp(Stats());
 
@@ -155,9 +159,33 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
     print(death);
   }
 
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Main',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Chart',
+      style: optionStyle,
+    ),
+  ];
+  void _onItemTapped(int index) {
+    setState(() {
+      if (index == 0) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Stats()));
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
     var data = [
       StatsbyState('Number of Cases', 10, Colors.red),
       StatsbyState('Positive Test Rate', 20, Colors.yellow),
@@ -165,7 +193,6 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
       StatsbyState('Number dead', 40, Colors.orange),
       StatsbyState('Number infected', 20, Colors.purpleAccent),
     ];
-    
 
     var series = [
       charts.Series(
@@ -182,7 +209,7 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
       animate: true,
       domainAxis: new charts.OrdinalAxisSpec(
           renderSpec: new charts.SmallTickRendererSpec(
-            labelRotation: 55,
+              labelRotation: 55,
 
               // Tick and Label styling here.
               labelStyle: new charts.TextStyleSpec(
@@ -195,17 +222,16 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
 
       /// Assign a custom style for the measure axis.
       primaryMeasureAxis: new charts.NumericAxisSpec(
-          renderSpec: new charts.GridlineRendererSpec(
+        renderSpec: new charts.GridlineRendererSpec(
 
-              // Tick and Label styling here.
-              labelStyle: new charts.TextStyleSpec(
-                  fontSize: 15, // size in Pts.
-                  color: charts.MaterialPalette.white),
+            // Tick and Label styling here.
+            labelStyle: new charts.TextStyleSpec(
+                fontSize: 15, // size in Pts.
+                color: charts.MaterialPalette.white),
 
-              // Change the line colors to match text color.
-              lineStyle: new charts.LineStyleSpec(
-                  color: charts.MaterialPalette.white)),
-        
+            // Change the line colors to match text color.
+            lineStyle:
+                new charts.LineStyleSpec(color: charts.MaterialPalette.white)),
       ),
     );
 
@@ -216,10 +242,35 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
         child: chart,
       ),
     );
-    
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bar Graph Demo'),
+        title: Text('COVID-19 In Your Area'),
+        actions: [
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                  onTap: () async {
+                    await FirebaseAuth.instance.signOut().then((value) =>
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen())));
+                  },
+                  child: Icon(Icons.portrait)))
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.apps), title: Text('Main')),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.table_chart),
+            title: Text('Chart'),
+          )
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -237,15 +288,13 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
                 label: Text('click here')),
           ),
           new Container(
-                  margin: EdgeInsets.only(top: 5, bottom: 10),
-                  padding: EdgeInsets.all(10.0),
-                  child: Text('Displaying Data for the area:'),
+            margin: EdgeInsets.only(top: 5, bottom: 10),
+            padding: EdgeInsets.all(10.0),
+            child: Text('Displaying Data for the area:'),
           ),
-          chartWidget
+          chartWidget,
         ],
       ),
     );
   }
 }
-
-
