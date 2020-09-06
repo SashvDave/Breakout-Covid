@@ -14,7 +14,7 @@ Breakout COVID can be used as an app and website, which uses Machine Learning mo
 
 # Video Demonstration of the App
 
-https://youtu.be/sfdDAyRsado
+https://youtu.be/8_ZUPdVPPiE
 
 # Development Environment and softwares Used
 
