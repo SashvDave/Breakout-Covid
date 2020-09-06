@@ -1,4 +1,5 @@
 import 'package:CovidHacksApp/src/Stats.dart';
+import 'package:CovidHacksApp/src/home.dart';
 import 'package:CovidHacksApp/src/login.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -54,7 +55,8 @@ class _MyHomePageState extends State<MyHomePage> {
     ))
         .user;
     print('Signed user up: ');
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Stats()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HomeScreen()));
   }
 
   @override
@@ -70,24 +72,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 155.0,
                   width: 95.0,
                   child: Image.asset('lib/src/assets/logo.png')),
-              new Container(
-                padding: EdgeInsets.all(10.0),
-                child: TextFormField(
-                  decoration: new InputDecoration(
-                    border: const OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.green, width: 2.0),
-                    ),
-                    hintText: 'Enter your username',
-                    prefixIcon: Icon(Icons.person_add),
-                    labelText: 'Username',
-                    contentPadding:
-                        new EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                  ),
-                  validator: (input) =>
-                      input.isEmpty ? 'You must enter an email' : null,
-                ),
-              ),
               new Container(
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
@@ -220,7 +204,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.transparent),
               ),
               new Container(
-                margin: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 15),
+                margin:
+                    EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 15),
                 child: RaisedButton.icon(
                     onPressed: () {
                       Navigator.of(context).pushNamed('/register');
@@ -238,15 +223,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     splashColor: Colors.red,
                     color: Colors.transparent),
               ),
-               new InkWell(
+              new InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
-                  },
-                child: Text('Sign in with an existing account',
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 15),
-                    
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                },
+                child: Text(
+                  'Sign in with an existing account',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 15),
                 ),
               )
             ],

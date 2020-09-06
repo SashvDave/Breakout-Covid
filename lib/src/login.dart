@@ -1,4 +1,5 @@
 import 'package:CovidHacksApp/src/Stats.dart';
+import 'package:CovidHacksApp/src/home.dart';
 import 'package:CovidHacksApp/src/register.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -65,7 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
     //assert(await user.getIdToken() != null);
 
     print("Signed in user");
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Stats()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HomeScreen()));
     return user;
   }
 
@@ -83,7 +85,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final FirebaseUser user =
         (await _auth.signInWithCredential(credential)).user;
     print("signed in ");
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Stats()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HomeScreen()));
     return user;
   }
 
@@ -184,12 +187,16 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               new InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));
-                  },
-                child: Text('Sign in with an existing account',
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 15),
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RegisterScreen()));
+                },
+                child: Text(
+                  'Sign in with an existing account',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 15),
                 ),
               )
             ],

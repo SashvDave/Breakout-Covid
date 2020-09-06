@@ -175,9 +175,11 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
   void _onItemTapped(int index) {
     setState(() {
       if (index == 0) {
+        _selectedIndex = 0;
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HomeScreen()));
       } else {
+        _selectedIndex = 1;
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Stats()));
       }
@@ -262,14 +264,21 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.apps), title: Text('Main')),
           BottomNavigationBarItem(
-            icon: Icon(Icons.table_chart),
+              icon: Icon(
+                Icons.apps,
+              ),
+              title: Text('Main')),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.table_chart,
+              color: Colors.blueAccent,
+            ),
             title: Text('Chart'),
           )
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
       body: Column(
