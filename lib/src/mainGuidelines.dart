@@ -1,5 +1,14 @@
-import 'package:CovidHacksApp/src/Stats.dart';
+import 'package:CovidHacksApp/src/login.dart';
+import 'package:CovidHacksApp/src/stats.dart';
 import 'package:flutter/material.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'dart:math';
+import 'dart:convert';
+import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 
 void main() {
@@ -38,18 +47,77 @@ class MyHomePage extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
+
+  
 }
 
 
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Main',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Chart',
+      style: optionStyle,
+    ),
+  ];
+  void _onItemTapped(int index) {
+    setState(() {
+      if (index == 0) {
+        _selectedIndex = 0;
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MainGuidelineScreen()));
+      } else {
+        _selectedIndex = 1;
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Stats()));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Guidelines for Staying Healthy'),
-        backgroundColor: Colors.deepOrange,
+        title: Text('Guidelines to stay safe'),
+        actions: [
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                  onTap: () async {
+                    await FirebaseAuth.instance.signOut().then((value) =>
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen())));
+                  },
+                  child: Icon(Icons.portrait)))
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.apps,
+              ),
+              title: Text('Main')),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.table_chart,
+              color: Colors.blueAccent,
+            ),
+            title: Text('Chart'),
+          )
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
       ),
       body: SingleChildScrollView(
         child: Form(
