@@ -49,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Guidelines'),
+        backgroundColor: Colors.deepOrange
       ),
       body: SingleChildScrollView(
         child: Form(
