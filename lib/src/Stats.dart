@@ -204,11 +204,15 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
   @override
   Widget build(BuildContext context) {
     var data = [
-      StatsbyState('Number of Cases', 20, Colors.red),
-      StatsbyState('Positive Test Rate', 20, Colors.yellow),
-      StatsbyState('Number hopsitalized', 2, Colors.green),
-      StatsbyState('Number dead', 20, Colors.orange),
-      StatsbyState('Number infected', 20, Colors.purpleAccent),
+      StatsbyState(
+          'Number of Cases', int.parse(caseNum.toString()), Colors.red),
+      StatsbyState('Positive Test Rate', int.parse(positivityRates.toString()),
+          Colors.yellow),
+      StatsbyState('Number hopsitalized',
+          int.parse(currentHospitalized.toString()), Colors.green),
+      StatsbyState('Number dead', int.parse(death.toString()), Colors.orange),
+      StatsbyState('Number infected', int.parse(totalTestsViral.toString()),
+          Colors.purpleAccent),
     ];
 
     var series = [
