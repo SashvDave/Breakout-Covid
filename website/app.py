@@ -75,6 +75,44 @@ def send():
         
         print(message)
 
+
+        # ML PROGRAM SECTION
+
+
+        df = pd.read_csv('daily.csv')
+
+        def clean_dataset(df):
+            assert isinstance(df, pd.DataFrame), "df needs to be a pd.DataFrame"
+            df.dropna(inplace=True)
+            indices_to_keep = ~df.isin([np.nan, np.inf, -np.inf]).any(1)
+            return df[indices_to_keep].astype(np.float64)
+
+        df.drop(columns='pending')
+
+        X = df.iloc[:, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]].values
+        states = X[:, 0]
+
+        le = LabelEncoder() 
+        
+        df['state']= le.fit_transform(df['state'])
+        df.replace("+", "")
+        df = df.drop(columns="dataQualityGrade")
+        df = df.drop(columns="pending")
+        df.dropna()
+
+        clean_dataset(df)
+
+
+        df.head()
+
+        model = KMeans(n_clusters=3)
+        model.fit(df)
+
+        predictions = model.predict(df)
+
+        print(predictions[0])
+
+
         return redirect(request.url)
 
     return render_template('index.html')
