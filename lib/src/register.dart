@@ -1,6 +1,7 @@
 import 'package:CovidHacksApp/src/Stats.dart';
 import 'package:CovidHacksApp/src/home.dart';
 import 'package:CovidHacksApp/src/login.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -46,6 +47,8 @@ class MyHomePage extends StatefulWidget {
 final FirebaseAuth _auth = FirebaseAuth.instance;
 TextEditingController _emailController = TextEditingController();
 TextEditingController _passwordController = TextEditingController();
+TextEditingController _nameController = TextEditingController();
+TextEditingController _stateController = TextEditingController();
 
 class _MyHomePageState extends State<MyHomePage> {
   Future<FirebaseUser> _handleSignUp(String email, String password) async {
@@ -55,8 +58,15 @@ class _MyHomePageState extends State<MyHomePage> {
     ))
         .user;
     print('Signed user up: ');
+    uploadData();
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => HomeScreen()));
+  }
+
+  void uploadData() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    FirebaseDatabase.instance.reference().child(user.uid).set(
+        {'companyName': _nameController.text, 'state': _stateController.text});
   }
 
   @override
@@ -141,6 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
               new Container(
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
+                  controller: _nameController,
                   decoration: new InputDecoration(
                     border: const OutlineInputBorder(
                       borderSide:
@@ -164,6 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
               new Container(
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
+                  controller: _stateController,
                   decoration: new InputDecoration(
                     border: const OutlineInputBorder(
                       borderSide:
