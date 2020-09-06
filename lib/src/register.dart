@@ -87,9 +87,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: TextFormField(
                   controller: _emailController,
                   decoration: new InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                    ),
                     border: const OutlineInputBorder(
                       borderSide:
-                          const BorderSide(color: Colors.green, width: 2.0),
+                          const BorderSide(color: Colors.orange, width: 2.0),
                     ),
                     hintText: 'Ex. example123@example.com',
                     prefixIcon: Icon(Icons.mail),
@@ -106,6 +109,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: TextFormField(
                   controller: _passwordController,
                   decoration: new InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                    ),
                     border: const OutlineInputBorder(
                       borderSide:
                           const BorderSide(color: Colors.orange, width: 2.0),
@@ -129,6 +135,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
                   decoration: new InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                    ),
                     border: const OutlineInputBorder(
                       borderSide:
                           const BorderSide(color: Colors.orange, width: 2.0),
@@ -153,6 +162,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: TextFormField(
                   controller: _nameController,
                   decoration: new InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                    ),
                     border: const OutlineInputBorder(
                       borderSide:
                           const BorderSide(color: Colors.orange, width: 2.0),
@@ -177,6 +189,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: TextFormField(
                   controller: _stateController,
                   decoration: new InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                    ),
                     border: const OutlineInputBorder(
                       borderSide:
                           const BorderSide(color: Colors.orange, width: 2.0),
