@@ -22,6 +22,7 @@ Breakout COVID can be used as an app and website, which uses Machine Learning mo
 * [Firebase for authentication and storing information in Realtime Database](https://firebase.google.com/)
 * [Figma to sktech app UI](https://www.figma.com/)
 * [Flask](https://flask.palletsprojects.com/en/1.1.x/)
+* [Heroku](https://www.heroku.com/)
 
 # Team
 
