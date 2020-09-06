@@ -145,7 +145,7 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
   handleInformation(String state) async {
     final url =
         await http.get('https://api.covidtracking.com/v1/states/current.json');
-    state = "California";
+    state = "california";
     var reversed = stateNames.map((k, v) => MapEntry(v, k));
     var statename = reversed[state.toLowerCase()];
     var stateNum = statenums[statename];
@@ -167,10 +167,10 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
   }
 
   makingPredictions() async {
-    //final url = await http.get('http://127.0.0.1:5000/');
-    //final data = json.decode(url.body);
-    var predictionVal = 0;
-    //print(predictionVal);
+    final url = await http.get('http://127.0.0.1:5000/api?Quer=Predictions');
+    final data = json.decode(url.body);
+    var predictionVal = data["Predictions"];
+    print(predictionVal);
     if (predictionVal == 0) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Guideline0Screen()));
@@ -226,14 +226,15 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
   @override
   Widget build(BuildContext context) {
     var data = [
-      StatsbyState('Number of Cases', int.parse(caseNum), Colors.red),
       StatsbyState(
-          'Positive Test Rate', int.parse(positivityRates), Colors.yellow),
-      StatsbyState(
-          'Number hopsitalized', int.parse(currentHospitalized), Colors.green),
-      StatsbyState('Number dead', int.parse(death), Colors.orange),
-      StatsbyState(
-          'Number infected', int.parse(totalTestsViral), Colors.purpleAccent),
+          'Number of Cases', int.parse(caseNum.toString()), Colors.red),
+      StatsbyState('Positive Test Rate', int.parse(positivityRates.toString()),
+          Colors.yellow),
+      StatsbyState('Number hopsitalized',
+          int.parse(currentHospitalized.toString()), Colors.green),
+      StatsbyState('Number dead', int.parse(death.toString()), Colors.orange),
+      StatsbyState('Number infected', int.parse(totalTestsViral.toString()),
+          Colors.purpleAccent),
     ];
 
     var series = [

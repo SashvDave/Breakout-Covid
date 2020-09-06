@@ -184,7 +184,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       10.0,
                     ),
                   ),
-                  obscureText: true,
                   validator: (input) =>
                       input.isEmpty ? 'You must enter a password' : null,
                 ),
@@ -212,7 +211,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       10.0,
                     ),
                   ),
-                  obscureText: true,
                   validator: (input) =>
                       input.isEmpty ? 'You must enter a password' : null,
                 ),

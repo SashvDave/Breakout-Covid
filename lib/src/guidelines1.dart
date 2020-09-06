@@ -49,7 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Stats()));
             }),
         backgroundColor: Colors.deepOrange,
       ),
