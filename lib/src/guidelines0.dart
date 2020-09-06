@@ -48,8 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Guidelines'),
-        backgroundColor: Colors.deepOrange
+        title: Text('Guidelines for Businesses'),
+        backgroundColor: Colors.deepOrange,
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -69,16 +69,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Image.asset('lib/src/assets/logo.png')),
               new Container(
                   margin: EdgeInsets.only(top: 10, left: 15, right: 15),
-                  height: 215.0,
+                  height: 120.0,
                   width: 95.0,
-                  child: Text('1. There are hundreds of counselors available to help you relieve any anxiousness or concerns you may have about your business. If you are ever under duress, or require any help, the first thing you should always do is reach out for your help, whether or not you know it, everyone is here for you. Below are some helplines to call if in need of help: \n\n        - Crisis Services: 716-834-3131 \n        - Open Counseling: (800)-662-4357',
+                  child: Text('1. Start Right at the Front Door With Screeners: Screeners perform temperature checks and other health assessments to ensure that anyone who could potentially be infected does not get into your building. ',
                   style: TextStyle(fontSize: 15),)
               ),
               new Container(
                   margin: EdgeInsets.only(left: 15, right: 15),
                   height: 215.0,
                   width: 95.0,
-                  child: Text('2. Get some fresh air. Social distancing doesn’t mean you can’t go outside as long as you keep a distance from anyone who isn’t part of your family. Go for a walk! Take a hike! Do some outdoor yoga! The natural world is your oyster. Dive in. Some examples: \n\n        - Pilates \n        - Virtual Spin classes')
+                  child: Text('2. Keep mindly with shifts: With a pandemic through contact spreading around, simply screening is not always reliable and with many employees in the store, customers coming in and out, and essentially everyone touching everything, it is important that as a reopening business you keep employee shifts mindly. \n\n        - Rigorous Disinfection Protocols \n\n        - Reasonable Travel Restrictions')
               )
             ],
           ),
