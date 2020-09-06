@@ -1,4 +1,5 @@
 import 'package:CovidHacksApp/src/Stats.dart';
+import 'package:CovidHacksApp/src/login.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -154,6 +155,52 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               new Container(
+                padding: EdgeInsets.all(10.0),
+                child: TextFormField(
+                  decoration: new InputDecoration(
+                    border: const OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: Colors.orange, width: 2.0),
+                    ),
+                    hintText: 'Enter your company name here',
+                    prefixIcon: Icon(Icons.business_center),
+                    labelText: 'Company Name',
+                    contentPadding: new EdgeInsets.fromLTRB(
+                      20.0,
+                      10.0,
+                      20.0,
+                      10.0,
+                    ),
+                  ),
+                  obscureText: true,
+                  validator: (input) =>
+                      input.isEmpty ? 'You must enter a password' : null,
+                ),
+              ),
+              new Container(
+                padding: EdgeInsets.all(10.0),
+                child: TextFormField(
+                  decoration: new InputDecoration(
+                    border: const OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: Colors.orange, width: 2.0),
+                    ),
+                    hintText: 'Location of Company, ex. California',
+                    prefixIcon: Icon(Icons.location_on),
+                    labelText: 'State',
+                    contentPadding: new EdgeInsets.fromLTRB(
+                      20.0,
+                      10.0,
+                      20.0,
+                      10.0,
+                    ),
+                  ),
+                  obscureText: true,
+                  validator: (input) =>
+                      input.isEmpty ? 'You must enter a password' : null,
+                ),
+              ),
+              new Container(
                 margin: EdgeInsets.only(top: 5),
                 padding: EdgeInsets.all(10.0),
                 child: RaisedButton.icon(
@@ -173,7 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.transparent),
               ),
               new Container(
-                margin: EdgeInsets.only(top: 5, left: 10, right: 10),
+                margin: EdgeInsets.only(top: 5, left: 10, right: 10, bottom: 15),
                 child: RaisedButton.icon(
                     onPressed: () {
                       Navigator.of(context).pushNamed('/register');
@@ -191,15 +238,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     splashColor: Colors.red,
                     color: Colors.transparent),
               ),
-              new Container(
-                  margin: EdgeInsets.only(top: 5),
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    'Sign in with an existing account',
+               new InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                  },
+                child: Text('Sign in with an existing account',
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 15),
-                  )),
+                    
+                ),
+              )
             ],
           ),
         ),
