@@ -107,9 +107,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
                   decoration: new InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                    ),
                     border: const OutlineInputBorder(
                       borderSide:
-                          const BorderSide(color: Colors.white, width: 2.0),
+                          const BorderSide(color: Colors.orange, width: 2.0),
                     ),
                     hintText: 'Enter your email ID',
                     prefixIcon: Icon(Icons.email),
@@ -127,9 +130,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: TextFormField(
                   controller: _passwordController,
                   decoration: new InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                    ),
                     border: const OutlineInputBorder(
                       borderSide:
-                          const BorderSide(color: Colors.white, width: 2.0),
+                          const BorderSide(color: Colors.orange, width: 2.0),
                     ),
                     hintText: 'Enter your password here',
                     prefixIcon: Icon(Icons.security),
