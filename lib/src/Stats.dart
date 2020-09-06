@@ -8,6 +8,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 void main() => runApp(Stats());
 
@@ -140,6 +141,7 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
   handleInformation(String state) async {
     final url =
         await http.get('https://api.covidtracking.com/v1/states/current.json');
+
     var reversed = stateNames.map((k, v) => MapEntry(v, k));
     var statename = reversed[state.toLowerCase()];
     var stateNum = statenums[statename];
@@ -152,13 +154,26 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
     currentHospitalized = data[stateNum]["hospitalizedCurrently"];
     totalTestsViral = data[stateNum]["totalTestsViral"];
     death = data[stateNum]["death"];
-    print(caseNum);
-    print(positivityRates);
-    print(currentHospitalized);
-    print(totalTestsViral);
-    print(death);
+    print(int.parse(caseNum.toString()));
+    print(int.parse(positivityRates.toString()));
+    print(int.parse(currentHospitalized.toString()));
+    print(int.parse(totalTestsViral.toString()));
+    print(int.parse(death.toString()));
   }
 
+  void getData() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    FirebaseDatabase.instance
+        .reference()
+        .child(user.uid)
+        .child('state')
+        .once()
+        .then((DataSnapshot snapshot) {
+      state = snapshot.value.toString();
+    });
+  }
+
+  String state;
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -189,10 +204,10 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
   @override
   Widget build(BuildContext context) {
     var data = [
-      StatsbyState('Number of Cases', 10, Colors.red),
+      StatsbyState('Number of Cases', 20, Colors.red),
       StatsbyState('Positive Test Rate', 20, Colors.yellow),
-      StatsbyState('Number hopsitalized', 200, Colors.green),
-      StatsbyState('Number dead', 40, Colors.orange),
+      StatsbyState('Number hopsitalized', 2, Colors.green),
+      StatsbyState('Number dead', 20, Colors.orange),
       StatsbyState('Number infected', 20, Colors.purpleAccent),
     ];
 
@@ -285,10 +300,11 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          chartWidget,
           Container(
             height: 50,
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
+            width: 250,
+            padding: const EdgeInsets.all(10),
             child: RaisedButton.icon(
                 onPressed: () {
                   handleInformation("california");
@@ -296,12 +312,6 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
                 icon: Icon(Icons.security),
                 label: Text('click here')),
           ),
-          new Container(
-            margin: EdgeInsets.only(top: 5, bottom: 10),
-            padding: EdgeInsets.all(10.0),
-            child: Text('Displaying Data for the area:'),
-          ),
-          chartWidget,
         ],
       ),
     );
