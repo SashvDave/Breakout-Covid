@@ -1,5 +1,6 @@
 import 'package:CovidHacksApp/src/Stats.dart';
 import 'package:CovidHacksApp/src/home.dart';
+import 'package:CovidHacksApp/src/mainGuidelines.dart';
 import 'package:CovidHacksApp/src/register.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -66,8 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
     //assert(await user.getIdToken() != null);
 
     print("Signed in user");
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => MainGuidelineScreen()));
     return user;
   }
 
@@ -85,8 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final FirebaseUser user =
         (await _auth.signInWithCredential(credential)).user;
     print("signed in ");
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => MainGuidelineScreen()));
     return user;
   }
 
@@ -108,7 +109,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: TextFormField(
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                      borderSide:
+                          BorderSide(width: 1, color: Colors.deepOrange),
                     ),
                     border: const OutlineInputBorder(
                       borderSide:
@@ -131,7 +133,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   controller: _passwordController,
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                      borderSide:
+                          BorderSide(width: 1, color: Colors.deepOrange),
                     ),
                     border: const OutlineInputBorder(
                       borderSide:

@@ -1,5 +1,6 @@
 import 'package:CovidHacksApp/src/Stats.dart';
 import 'package:CovidHacksApp/src/home.dart';
+import 'package:CovidHacksApp/src/mainGuidelines.dart';
 import 'package:CovidHacksApp/src/login.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -59,8 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
         .user;
     print('Signed user up: ');
     uploadData();
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => MainGuidelineScreen()));
   }
 
   void uploadData() async {
@@ -88,7 +89,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   controller: _emailController,
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                      borderSide:
+                          BorderSide(width: 1, color: Colors.deepOrange),
                     ),
                     border: const OutlineInputBorder(
                       borderSide:
@@ -110,7 +112,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   controller: _passwordController,
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                      borderSide:
+                          BorderSide(width: 1, color: Colors.deepOrange),
                     ),
                     border: const OutlineInputBorder(
                       borderSide:
@@ -136,7 +139,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: TextFormField(
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                      borderSide:
+                          BorderSide(width: 1, color: Colors.deepOrange),
                     ),
                     border: const OutlineInputBorder(
                       borderSide:
@@ -163,7 +167,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   controller: _nameController,
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                      borderSide:
+                          BorderSide(width: 1, color: Colors.deepOrange),
                     ),
                     border: const OutlineInputBorder(
                       borderSide:
@@ -190,7 +195,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   controller: _stateController,
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 1,color: Colors.deepOrange),
+                      borderSide:
+                          BorderSide(width: 1, color: Colors.deepOrange),
                     ),
                     border: const OutlineInputBorder(
                       borderSide:

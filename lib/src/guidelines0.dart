@@ -1,7 +1,6 @@
 import 'package:CovidHacksApp/src/Stats.dart';
 import 'package:flutter/material.dart';
 
-
 void main() {
   runApp(Guideline0Screen());
 }
@@ -40,15 +39,18 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-
-
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Guidelines for Businesses'),
+        automaticallyImplyLeading: true,
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         backgroundColor: Colors.deepOrange,
       ),
       body: SingleChildScrollView(
@@ -59,9 +61,10 @@ class _MyHomePageState extends State<MyHomePage> {
               new Container(
                   margin: EdgeInsets.only(top: 10, left: 65, right: 15),
                   width: 95.0,
-                  child: Text('Tips for staying at Home!',
-                  style: TextStyle(fontSize: 20),)
-              ),
+                  child: Text(
+                    'Tips for staying at Home!',
+                    style: TextStyle(fontSize: 20),
+                  )),
               new Container(
                   margin: EdgeInsets.only(top: 5),
                   height: 155.0,
@@ -71,15 +74,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   margin: EdgeInsets.only(top: 10, left: 15, right: 15),
                   height: 120.0,
                   width: 95.0,
-                  child: Text('1. Start Right at the Front Door With Screeners: Screeners perform temperature checks and other health assessments to ensure that anyone who could potentially be infected does not get into your building. ',
-                  style: TextStyle(fontSize: 15),)
-              ),
+                  child: Text(
+                    '1. Start Right at the Front Door With Screeners: Screeners perform temperature checks and other health assessments to ensure that anyone who could potentially be infected does not get into your building. ',
+                    style: TextStyle(fontSize: 15),
+                  )),
               new Container(
                   margin: EdgeInsets.only(left: 15, right: 15),
                   height: 215.0,
                   width: 95.0,
-                  child: Text('2. Keep mindly with shifts: With a pandemic through contact spreading around, simply screening is not always reliable and with many employees in the store, customers coming in and out, and essentially everyone touching everything, it is important that as a reopening business you keep employee shifts mindly. \n\n        - Rigorous Disinfection Protocols \n\n        - Reasonable Travel Restrictions')
-              )
+                  child: Text(
+                      '2. Keep mindly with shifts: With a pandemic through contact spreading around, simply screening is not always reliable and with many employees in the store, customers coming in and out, and essentially everyone touching everything, it is important that as a reopening business you keep employee shifts mindly. \n\n        - Rigorous Disinfection Protocols \n\n        - Reasonable Travel Restrictions'))
             ],
           ),
         ),

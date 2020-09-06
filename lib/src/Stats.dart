@@ -1,5 +1,9 @@
+import 'package:CovidHacksApp/src/guidelines0.dart';
+import 'package:CovidHacksApp/src/guidelines1.dart';
+import 'package:CovidHacksApp/src/guidelines2.dart';
 import 'package:CovidHacksApp/src/home.dart';
 import 'package:CovidHacksApp/src/login.dart';
+import 'package:CovidHacksApp/src/mainGuidelines.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'dart:math';
@@ -141,24 +145,42 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
   handleInformation(String state) async {
     final url =
         await http.get('https://api.covidtracking.com/v1/states/current.json');
-
+    state = "California";
     var reversed = stateNames.map((k, v) => MapEntry(v, k));
     var statename = reversed[state.toLowerCase()];
     var stateNum = statenums[statename];
     print(stateNum);
     print(statename);
-    final data = json.decode(url.body);
+    var response = await http.get(url);
+    final data = json.decode(response.body);
     var numOfState = statenums.values.toList();
-    caseNum = data[stateNum]["positive"];
-    positivityRates = data[stateNum]["positiveIncrease"];
-    currentHospitalized = data[stateNum]["hospitalizedCurrently"];
-    totalTestsViral = data[stateNum]["totalTestsViral"];
-    death = data[stateNum]["death"];
+    caseNum = await data[stateNum]["positive"];
+    positivityRates = await data[stateNum]["positiveIncrease"];
+    currentHospitalized = await data[stateNum]["hospitalizedCurrently"];
+    totalTestsViral = await data[stateNum]["totalTestsViral"];
+    death = await data[stateNum]["death"];
     print(int.parse(caseNum.toString()));
     print(int.parse(positivityRates.toString()));
     print(int.parse(currentHospitalized.toString()));
     print(int.parse(totalTestsViral.toString()));
     print(int.parse(death.toString()));
+  }
+
+  makingPredictions() async {
+    //final url = await http.get('http://127.0.0.1:5000/');
+    //final data = json.decode(url.body);
+    var predictionVal = 0;
+    //print(predictionVal);
+    if (predictionVal == 0) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Guideline0Screen()));
+    } else if (predictionVal == 1) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Guideline1Screen()));
+    } else {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Guideline2Screen()));
+    }
   }
 
   void getData() async {
@@ -191,8 +213,8 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
     setState(() {
       if (index == 0) {
         _selectedIndex = 0;
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => MainGuidelineScreen()));
       } else {
         _selectedIndex = 1;
         Navigator.push(
@@ -204,15 +226,14 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
   @override
   Widget build(BuildContext context) {
     var data = [
+      StatsbyState('Number of Cases', int.parse(caseNum), Colors.red),
       StatsbyState(
-          'Number of Cases', int.parse(caseNum.toString()), Colors.red),
-      StatsbyState('Positive Test Rate', int.parse(positivityRates.toString()),
-          Colors.yellow),
-      StatsbyState('Number hopsitalized',
-          int.parse(currentHospitalized.toString()), Colors.green),
-      StatsbyState('Number dead', int.parse(death.toString()), Colors.orange),
-      StatsbyState('Number infected', int.parse(totalTestsViral.toString()),
-          Colors.purpleAccent),
+          'Positive Test Rate', int.parse(positivityRates), Colors.yellow),
+      StatsbyState(
+          'Number hopsitalized', int.parse(currentHospitalized), Colors.green),
+      StatsbyState('Number dead', int.parse(death), Colors.orange),
+      StatsbyState(
+          'Number infected', int.parse(totalTestsViral), Colors.purpleAccent),
     ];
 
     var series = [
@@ -306,16 +327,16 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
         children: <Widget>[
           chartWidget,
           Container(
-            height: 50,
-            width: 250,
-            padding: const EdgeInsets.all(10),
-            child: RaisedButton.icon(
+              height: 50,
+              width: 250,
+              padding: const EdgeInsets.all(10),
+              child: RaisedButton.icon(
                 onPressed: () {
-                  handleInformation("california");
+                  makingPredictions();
                 },
-                icon: Icon(Icons.security),
-                label: Text('click here')),
-          ),
+                label: Text('Get Evaluation'),
+                icon: Icon(Icons.assignment_return),
+              )),
         ],
       ),
     );
