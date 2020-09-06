@@ -22,17 +22,30 @@ class _MyAppState extends State<Stats> {
       debugShowCheckedModeBanner: false,
       home: BarGraphScreen(),
       theme: ThemeData(
-        primaryColor: Colors.blue,
+        brightness: Brightness.dark,
+        primaryColor: Colors.deepOrange,
       ),
     );
   }
 }
 
 class BarGraphScreen extends StatefulWidget {
-  BarGraphScreen({Key key}) : super(key: key);
+  BarGraphScreen({Key key, this.title}) : super(key: key);
+
+  final String title;
 
   @override
   _BarGraphDemoState createState() => _BarGraphDemoState();
+}
+
+class StatsbyState {
+  final String category;
+  final int numbers;
+  final charts.Color color;
+
+  StatsbyState(this.category, this.numbers, Color color)
+      : this.color = charts.Color(
+            r: color.red, g: color.green, b: color.blue, a: color.alpha);
 }
 
 final stateNames = {
@@ -144,6 +157,66 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    var data = [
+      StatsbyState('Number of Cases', 10, Colors.red),
+      StatsbyState('Positive Test Rate', 20, Colors.yellow),
+      StatsbyState('Number hopsitalized', 200, Colors.green),
+      StatsbyState('Number dead', 40, Colors.orange),
+      StatsbyState('Number infected', 20, Colors.purpleAccent),
+    ];
+    
+
+    var series = [
+      charts.Series(
+        domainFn: (StatsbyState clickData, _) => clickData.category,
+        measureFn: (StatsbyState clickData, _) => clickData.numbers,
+        colorFn: (StatsbyState clickData, _) => clickData.color,
+        id: 'Clicks',
+        data: data,
+      ),
+    ];
+
+    var chart = charts.BarChart(
+      series,
+      animate: true,
+      domainAxis: new charts.OrdinalAxisSpec(
+          renderSpec: new charts.SmallTickRendererSpec(
+            labelRotation: 55,
+
+              // Tick and Label styling here.
+              labelStyle: new charts.TextStyleSpec(
+                  fontSize: 15, // size in Pts.
+                  color: charts.MaterialPalette.white),
+
+              // Change the line colors to match text color.
+              lineStyle: new charts.LineStyleSpec(
+                  color: charts.MaterialPalette.white))),
+
+      /// Assign a custom style for the measure axis.
+      primaryMeasureAxis: new charts.NumericAxisSpec(
+          renderSpec: new charts.GridlineRendererSpec(
+
+              // Tick and Label styling here.
+              labelStyle: new charts.TextStyleSpec(
+                  fontSize: 15, // size in Pts.
+                  color: charts.MaterialPalette.white),
+
+              // Change the line colors to match text color.
+              lineStyle: new charts.LineStyleSpec(
+                  color: charts.MaterialPalette.white)),
+        
+      ),
+    );
+
+    var chartWidget = Padding(
+      padding: EdgeInsets.all(32.0),
+      child: SizedBox(
+        height: 300.0,
+        child: chart,
+      ),
+    );
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Bar Graph Demo'),
@@ -153,7 +226,7 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            height: 200,
+            height: 50,
             width: double.infinity,
             padding: const EdgeInsets.all(12),
             child: RaisedButton.icon(
@@ -163,8 +236,16 @@ class _BarGraphDemoState extends State<BarGraphScreen> {
                 icon: Icon(Icons.security),
                 label: Text('click here')),
           ),
+          new Container(
+                  margin: EdgeInsets.only(top: 5, bottom: 10),
+                  padding: EdgeInsets.all(10.0),
+                  child: Text('Displaying Data for the area:'),
+          ),
+          chartWidget
         ],
       ),
     );
   }
 }
+
+
